@@ -9,6 +9,9 @@ jobs:
         with: { distribution: temurin, java-version: 21 }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: "8.14" }
-      - run: gradle build
+      - run: |
+          DIR=$(dirname "$(find . -name settings.gradle | head -1)")
+          echo "Building in $DIR"
+          gradle build -p "$DIR"
       - uses: actions/upload-artifact@v4
-        with: { name: hydrino-jar, path: build/libs/hydrino-1.0.0.jar }
+        with: { name: hydrino-jar, path: "**/build/libs/hydrino-1.0.0.jar" }
